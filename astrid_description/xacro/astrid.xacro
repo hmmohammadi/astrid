@@ -1,0 +1,323 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="astrid">
+
+    <xacro:include filename="$(find astrid_description)/xacro/macros.xacro" />
+
+    <link name="base_link">
+        <inertial>
+            <mass value="1" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+        </inertial>
+    </link>
+    <joint name="base_link_connection" type="fixed">
+        <parent link="base_link" />
+        <child link="chassis" />
+        <!-- <origin xyz="1.45 0 0" rpy="0 0 1.57" /> -->
+        <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="chassis">
+        <visual>
+            <xacro:chassis_geometry />
+        </visual>
+
+        <collision name="chassis">
+            <origin xyz="0 0.0 0.8" rpy="0 0 0" />
+            <geometry>
+                <box size="1 2.2 0.4" />
+            </geometry>
+        </collision>
+
+        <collision name="front_bumper">
+            <origin xyz="0 -1.2 0.3" rpy="0.0 0.0 1.57" />
+            <geometry>
+                <box size="0.5 0.9 0.408910" />
+            </geometry>
+        </collision>
+
+        <collision name="right_left_window">
+            <origin xyz="0 0.05 0.3" rpy="0.0 0.0 1.57" />
+            <geometry>
+                <box size="0.6 1.3 0.45" />
+            </geometry>
+        </collision>
+
+        <collision name="back_bumper">
+            <origin xyz="0.0 1.15 0.36" rpy="0.0 0.0 1.57" />
+            <geometry>
+                <box size="0.3 1.1 0.3" />
+            </geometry>
+        </collision>
+
+        <inertial>
+            <xacro:chassis_inertial_params />
+        </inertial>
+    </link>
+
+    <link name="fl_axle">
+        <inertial>
+            <xacro:steering_hinge_inertial_params />
+        </inertial>
+    </link>
+
+    <link name="fr_axle">
+        <inertial>
+            <xacro:steering_hinge_inertial_params />
+        </inertial>
+    </link>
+
+    <link name="front_left_wheel">
+        <inertial>
+            <xacro:left_wheels_inertial_params />
+        </inertial>
+        <collision name="front_left_wheel_collision">
+            <origin xyz="0 0 0" rpy="0 1.57 0" />
+            <geometry>
+                <!-- <sphere radius="0.31265" /> -->
+                <cylinder radius="0.3" length="0.2" />
+            </geometry>
+        </collision>
+        <visual>
+            <xacro:front_left_wheel_geometry />
+        </visual>
+    </link>
+
+    <link name="front_right_wheel">
+        <inertial>
+            <xacro:right_wheels_inertial_params />
+        </inertial>
+        <collision name="front_right_wheel_collision">
+            <origin xyz="0 0 0" rpy="0 1.57 0" />
+            <geometry>
+                <cylinder radius="0.3" length="0.2" />
+            </geometry>
+        </collision>
+        <visual>
+            <xacro:front_right_wheel_geometry />
+        </visual>
+    </link>
+    <link name="rear_left_wheel">
+        <inertial>
+            <xacro:left_wheels_inertial_params />
+        </inertial>
+        <collision name="rear_left_wheel_collision">
+            <origin xyz="0 0 0" rpy="0 1.57 0" />
+            <geometry>
+                <cylinder radius="0.3" length="0.2" />
+            </geometry>
+        </collision>
+        <visual>
+            <xacro:rear_left_wheel_geometry />
+        </visual>
+    </link>
+    <link name="rear_right_wheel">
+        <inertial>
+            <xacro:right_wheels_inertial_params />
+        </inertial>
+        <collision name="rear_right_wheel_collision">
+            <origin xyz="0 0 0" rpy="0 1.57 0" />
+            <geometry>
+                <cylinder radius="0.3" length="0.2" />
+            </geometry>
+        </collision>
+        <visual>
+          <xacro:rear_right_wheel_geometry />
+        </visual>
+    </link>
+    <!-- steering -->
+    <!-- <link name="steering_wheel">
+        <inertial>
+            <mass value="1.0" />
+            <inertia ixx="0.14583300" ixy="0.0" ixz="0.0" iyy="0.14583300" iyz="0.0" izz="0.125" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="1.302101 0 0" />
+            <geometry>
+                <mesh filename="package://astrid_description/meshes/steering_wheel.obj" scale="0.01 0.01 0.01" />
+            </geometry>
+        </visual>
+    </link> -->
+
+    <link name="shell">
+        <visual>
+            <geometry>
+                <mesh filename="package://astrid_description/meshes/Kabuk.stl" />
+            </geometry>
+        </visual>
+        <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <mass value="1.0" />
+            <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0" />
+        </inertial>
+    </link>
+
+    <joint name="chassis_shell_joint" type="fixed">
+        <origin xyz="0.000018 0.327994 0.45156" rpy="0.0 0.0 0.0" />
+        <parent link="chassis" />
+        <child link="shell" />
+        <axis xyz="0.0 0.0 0.0" />
+        <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0" />
+    </joint>
+    <!-- steering joint -->
+    <!-- 
+    <joint name="steering_joint" type="continuous">
+        <origin xyz="0.357734 -0.627868 0.988243" rpy="-1.302101 0 0" />
+        <parent link="chassis" />
+        <child link="steering_wheel" />
+        <axis xyz="0 0 1" />
+        <limit lower="-7.85" upper="7.85" effort="10000000" velocity="1000000" />
+    </joint> -->
+
+    <joint name="front_left_steer_joint" type="continuous">
+        <parent link="chassis" />
+        <child link="fl_axle" />
+        <origin xyz="0.508557 -0.593403 0.290461" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-0.8727" upper="0.8727" effort="10000000" velocity="1000000" />
+    </joint>
+    <joint name="front_right_steer_joint" type="continuous">
+        <parent link="chassis" />
+        <child link="fr_axle" />
+        <origin xyz="-0.508521 -0.598778  0.290461" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-0.8727" upper="0.8727" effort="10000000" velocity="1000000" />
+    </joint>
+    <joint name="front_left_wheel_joint" type="continuous">
+        <parent link="fl_axle" />
+        <child link="front_left_wheel" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+    </joint>
+    <joint name="front_right_wheel_joint" type="continuous">
+        <parent link="fr_axle" />
+        <child link="front_right_wheel" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+    </joint>
+    <joint name="rear_left_wheel_joint" type="continuous">
+        <parent link="chassis" />
+        <child link="rear_left_wheel" />
+        <origin xyz="0.508557 0.706205 0.290461" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+    </joint>
+    <joint name="rear_right_wheel_joint" type="continuous">
+        <parent link="chassis" />
+        <child link="rear_right_wheel" />
+        <origin xyz="-0.508521  0.706205 0.290461" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+    </joint>
+
+
+    <!-- sensor links and fixed joints -->
+
+    <!-- <joint name="camera_joint" type="fixed">
+        <origin xyz="0.0 -0.45 0.52" rpy="0.0 0.0 0.0" />
+        <parent link="shell" />
+        <child link="fr_camera" />
+        <axis xyz="0.0 0.0 0.0" />
+        <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0" />
+    </joint> -->
+
+    <!-- Kamera Link-->
+    <!-- <link name="fr_camera">
+        <visual>
+            <xacro:camera_geometry />
+        </visual>
+        <inertial>
+            <xacro:camera_inertial_params />
+        </inertial>
+    </link> -->
+    <link name="front_camera_link">
+        <inertial>
+          <mass value="1"/>
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+      </link>
+      <joint name="front_camera_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="front_camera_link"/>
+        <origin xyz="0 -0.4 1.4" rpy="0 0.05 -1.5707"/>
+      </joint>
+
+      <link name="front_camera_link_optical">
+        <inertial>
+          <mass value="1"/>
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+      </link>
+      <joint name="front_camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.5707 0 -1.5707"/>
+        <parent link="front_camera_link"/>
+        <child link="front_camera_link_optical"/>
+      </joint>
+
+    <!-- Laser Base Link-->
+
+    <joint name="laser_base_joint" type="fixed">
+        <origin xyz="-0.000018 -1.09322 0.601558" rpy="0.0 0.0 0.0" />
+        <parent link="chassis" />
+        <child link="laser_base" />
+        <axis xyz="0 0 1" />
+        <!-- <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0" /> -->
+    </joint>
+
+    <link name="laser_base">
+        <visual>
+            <xacro:laser_base_geometry />
+        </visual>
+    </link>
+
+    <joint name="laser_base_lidar_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0.0 0.0 0.0" />
+        <parent link="laser_base" />
+        <child link="lidar" />
+        <axis xyz="0.0 0.0 0.0" />
+        <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0" />
+    </joint>
+
+    <!-- Lidar Link-->
+    <link name="lidar">
+        <visual>
+            <xacro:lidar_geometry />
+        </visual>
+        <inertial>
+            <xacro:laser_inertial_params />
+        </inertial>
+    </link>
+
+
+    <!-- transmission -->
+
+
+    <transmission name="rear_right_wheel_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="rear_left_wheel_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor_move">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+
+    <transmission name="front_right_wheel_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="front_right_wheel_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <!-- <joint name="">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint> -->
+        <actuator name="motor_aci">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+
+    <xacro:include filename="$(find astrid_description)/xacro/astrid.gazebo" />
+    <xacro:include filename="$(find astrid_description)/xacro/materials.xacro" />
+
+</robot>

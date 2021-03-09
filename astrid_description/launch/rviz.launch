@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="astrid_xacro" default="$(find astrid_description)/xacro/astrid.xacro" />
+    <param name="robot_description" command="xacro --inorder '$(arg astrid_xacro)'" />
+    <arg name="gui" default="False" />
+    <param name="use_gui" value="$(arg gui)" />
+    <!-- Publish movable joints -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+    <!-- Add the transformations -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find astrid_description)/rviz/astrid_demo.rviz"/>
+
+</launch>

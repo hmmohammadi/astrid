@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="astrid">
+  <!-- Tanimlamalar-->
+
+  <xacro:property name="base_radius" value="0.05" />
+  <xacro:property name="base_height" value="0.05" />
+  <xacro:property name="laz_radius" value="0.04" />
+  <xacro:property name="laz_height" value="0.1" />
+
+
+  <!-- Inertial Paramete Macros -->
+
+  <xacro:macro name="chassis_inertial_params">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <mass value="16.0" />
+    <inertia ixx="2.10584732" ixy="0.0" ixz="0.0" iyy="4.51175401" iyz="0.0" izz="5.25511563" />
+  </xacro:macro>
+
+  <xacro:macro name="shell_inertial_params">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <mass value="1.0" />
+    <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0" />
+  </xacro:macro>
+
+  <xacro:macro name="left_wheels_inertial_params">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <mass value="1.0" />
+    <inertia ixx="0.18320651" ixy="0.0" ixz="0.0" iyy="0.1832065" iyz="0.0" izz="0.35415911" />
+  </xacro:macro>
+
+  <xacro:macro name="right_wheels_inertial_params">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <mass value="1.0" />
+    <inertia ixx="0.18320651" ixy="0.0" ixz="0.0" iyy="0.1832065" iyz="0.0" izz="0.35415911" />
+  </xacro:macro>
+
+  <xacro:macro name="steering_hinge_inertial_params">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <mass value="1.0" />
+    <inertia ixx="0.004" ixy="0.0" ixz="0.0" iyy="0.004" iyz="0.0" izz="0.004" />
+  </xacro:macro>
+
+  <xacro:macro name="camera_inertial_params">
+    <mass value="1e-5" />
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+  </xacro:macro>
+
+  <xacro:macro name="laser_inertial_params">
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+  </xacro:macro>
+
+  <!-- Null inertial element. This is needed to make the model work with
+       Gazebo. -->
+  <xacro:macro name="null_inertial">
+    <inertial>
+      <mass value="0.1" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+  </xacro:macro>
+
+  <!-- Geometry Macros-->
+
+  <!-- chassis-->
+  <xacro:macro name="chassis_geometry">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <mesh filename="package://astrid_description/meshes/iskelet.stl" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- shell-->
+  <xacro:macro name="shell_geometry">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <mesh filename="package://astrid_description/meshes/Kabuk.stl" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- Sag Arka Teker-->
+  <xacro:macro name="rear_right_wheel_geometry">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <mesh filename="package://astrid_description/meshes/tekerleksag.STL" />
+    </geometry>
+  </xacro:macro>
+
+  <xacro:macro name="rear_left_wheel_geometry">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <mesh filename="package://astrid_description/meshes/tekerleksol.STL" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- Sag Hinge -->
+  <xacro:macro name="right_steering_hinge_geometry">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <mesh filename="package://astrid_description/meshes/hinge.STL" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- Sol Hinge -->
+  <xacro:macro name="left_steering_hinge_geometry">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <mesh filename="package://astrid_description/meshes/hinge.STL" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- Sag On Teker-->
+  <xacro:macro name="front_right_wheel_geometry">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <mesh filename="package://astrid_description/meshes/tekerleksag.STL" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- sol On Teker-->
+  <xacro:macro name="front_left_wheel_geometry">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <mesh filename="package://astrid_description/meshes/tekerleksol.STL" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- Laser Base-->
+  <xacro:macro name="laser_base_geometry">
+
+    <geometry>
+      <cylinder length="${base_height}" radius="${base_radius}" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- Lidar-->
+  <xacro:macro name="lidar_geometry">
+
+    <geometry>
+      <cylinder length="${laz_height}" radius="${laz_radius}" />
+    </geometry>
+  </xacro:macro>
+
+  <!-- Kamera -->
+  <xacro:macro name="camera_geometry">
+
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <box size="0.033 0.175 0.030" />
+    </geometry>
+    <material name="red" />
+  </xacro:macro>
+
+
+  <!-- Collision Macros -->
+
+  <xacro:macro name="left_wheels_collision_geometry">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <geometry></geometry>
+  </xacro:macro>
+
+  <xacro:macro name="right_wheels_collision_geometry">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <geometry></geometry>
+
+  </xacro:macro>
+</robot>

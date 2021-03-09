@@ -1,0 +1,38 @@
+digraph G {
+node [shape=box];
+"base_link" [label="base_link"];
+"chassis" [label="chassis"];
+"laser_base" [label="laser_base"];
+"lidar" [label="lidar"];
+"left_steering_hinge" [label="left_steering_hinge"];
+"front_left_wheel" [label="front_left_wheel"];
+"rear_left_wheel" [label="rear_left_wheel"];
+"rear_right_wheel" [label="rear_right_wheel"];
+"right_steering_hinge" [label="right_steering_hinge"];
+"front_right_wheel" [label="front_right_wheel"];
+"shell" [label="shell"];
+"camera" [label="camera"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "base_link_connection" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"base_link_connection" -> "chassis"
+"chassis" -> "chassis_laser_base_joint" [label="xyz: -1.8e-05 -1.09322 0.601558 \nrpy: 0 -0 0"]
+"chassis_laser_base_joint" -> "laser_base"
+"laser_base" -> "laser_base_lidar_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"laser_base_lidar_joint" -> "lidar"
+"chassis" -> "chassis_left_steering_hinge_joint" [label="xyz: 0.508557 -0.593403 0.290461 \nrpy: 0 -0 0"]
+"chassis_left_steering_hinge_joint" -> "left_steering_hinge"
+"left_steering_hinge" -> "left_steering_hinge_front_left_wheel_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"left_steering_hinge_front_left_wheel_joint" -> "front_left_wheel"
+"chassis" -> "chassis_rear_left_wheel_joint" [label="xyz: 0.508557 0.706205 0.290461 \nrpy: 0 -0 0"]
+"chassis_rear_left_wheel_joint" -> "rear_left_wheel"
+"chassis" -> "chassis_rear_right_wheel_joint" [label="xyz: -0.508521 0.706205 0.290461 \nrpy: 0 -0 0"]
+"chassis_rear_right_wheel_joint" -> "rear_right_wheel"
+"chassis" -> "chassis_right_steering_hinge_joint" [label="xyz: -0.508521 -0.598778 0.290461 \nrpy: 0 -0 0"]
+"chassis_right_steering_hinge_joint" -> "right_steering_hinge"
+"right_steering_hinge" -> "right_steering_hinge_front_right_wheel_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"right_steering_hinge_front_right_wheel_joint" -> "front_right_wheel"
+"chassis" -> "chassis_shell_joint" [label="xyz: 1.8e-05 0.327994 0.45156 \nrpy: 0 -0 0"]
+"chassis_shell_joint" -> "shell"
+"shell" -> "chassis_camera_joint" [label="xyz: 0 -0.45 0.52 \nrpy: 0 -0 0"]
+"chassis_camera_joint" -> "camera"
+}
