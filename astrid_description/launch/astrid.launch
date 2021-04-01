@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="namespace" default="astrid" />
+
+  <group ns="$(arg namespace)">
+    <!-- robot_description is used by nodes that publish to joint_states. -->
+    <arg name="astrid" default="$(find astrid_description)/urdf/astrid.urdf.xacro" />
+    <param name="robot_description" command="xacro --inorder '$(arg astrid)'" />
+
+    <!-- <arg name="gui" default="False" /> -->
+    <!-- <param name="use_gui" value="$(arg gui)" /> -->
+    <!-- Publish movable joints -->
+    <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /> -->
+    <!-- Read joint positions from joint_states, then publish the vehicle's
+         state to tf. -->
+    <node name="vehicle_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <param name="publish_frequency" value="30.0" />
+    </node>
+    <!-- <node name="rviz" pkg="rviz" type="rviz" /> -->
+  </group>
+</launch>
