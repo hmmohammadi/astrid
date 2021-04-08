@@ -1,0 +1,15 @@
+global_costmap:
+  global_frame: /map
+  robot_base_frame: base_link
+
+  update_frequency: 10.0  # The frequency in Hz for the map to be updated. (double, default: 5.0)
+  publish_frequency: 10.0 # #The frequency in Hz for the map to be updated. (double, default: 0.0)
+  transform_tolerance: 0.5
+
+  plugins:
+  - {name: static_layer,        type: "costmap_2d::StaticLayer" }
+
+  static_map:
+    static_map: true  
+  # static_map: true
+ 

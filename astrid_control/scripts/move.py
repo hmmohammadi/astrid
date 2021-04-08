@@ -25,9 +25,6 @@ class teleopAstrid:
             self.loop_rate.sleep()
             # break
             break
-    
-
-
 
 if __name__=="__main__":
     astrid = teleopAstrid()

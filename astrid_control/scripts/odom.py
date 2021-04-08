@@ -49,17 +49,6 @@ def publish_odom(odom_pub):
         tf_pub.sendTransform(tf) #aynı şekilde tf de
         loop_rate.sleep()
 
-        
-
-
-
-    
-
-
-
-
-
-
 
 def robot_pose_update(data): #gazebodan tf değerleri alındı (topic üzerinden)
     global pose
@@ -80,12 +69,10 @@ def robot_pose_update(data): #gazebodan tf değerleri alındı (topic üzerinden
     # print("\ntwist", twist)
 
 
-
 def sub(): #node oluşturuldu ve topic dinleniyor
     # rospy.init_node('listener', anonymous=True)
     rospy.Subscriber('/gazebo/link_states', LinkStates, robot_pose_update)
     # rospy.spin()
-
 
 if __name__=="__main__":
 

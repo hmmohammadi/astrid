@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="cmd_timeout" default="0.5"/>
+  <arg name="model" default="astrid"/>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.05"/>
+  <arg name="roll" default="0.0"/>
+  <arg name="pitch" default="0.0"/>
+  <arg name="yaw" default="0"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find astrid_gazebo)/world/parkur_no_mater.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find astrid_description)/urdf/astrid.urdf.xacro" />
+
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf"  args="-urdf -model $(arg model) -x $(arg x) -y $(arg y) -z $(arg z) -param robot_description" />
+
+
+    <!-- Load the joint controllers. One of these publishes the joint states
+         to joint_states. -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner"
+          args="$(find astrid_gazebo)/config/em_3905_joint_ctrlr_params.yaml"/>
+
+    <node name="odom" pkg="astrid_control" type="odometry.py" />
+
+    <!-- Control the steering, axle, and shock absorber joints. -->
+    <node name="ackermann_controller" pkg="astrid_gazebo"
+          type="ackermann_controller">
+      <param name="cmd_timeout" value="$(arg cmd_timeout)"/>
+      <rosparam file="$(find astrid_gazebo)/config/em_3905_ackermann_ctrlr_params.yaml" command="load"/>
+    </node>
+</launch>

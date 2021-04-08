@@ -8,7 +8,7 @@ import roslib; roslib.load_manifest('teleop_twist_keyboard')
 import rospy
 
 from geometry_msgs.msg import Twist
-from ackermann_msgs.msg import AckermannDrive
+from ackermann_msgs.msg import AckermannDriveStamped
 
 import sys, select, termios, tty
 
@@ -44,7 +44,7 @@ o -> durdur
 
 """
 moveBindings = {
-        'i':(2,0,0,0),
+        'i':(5,0,0,0),
         'o':(0.3,0,0,-0.3),
         'j':(0,0,0,0.3),
         'l':(0,0,0,-0.3),
@@ -76,7 +76,7 @@ speedBindings={
 class PublishThread(threading.Thread):
     def __init__(self, rate):
         super(PublishThread, self).__init__()
-        self.publisher = rospy.Publisher('/ackermann_cmd', AckermannDrive, queue_size = 1)
+        self.publisher = rospy.Publisher('/ackermann_cmd', AckermannDriveStamped, queue_size = 1)
         self.x = 0.0
         self.y = 0.0
         self.z = 0.0
@@ -125,20 +125,20 @@ class PublishThread(threading.Thread):
 
     def run(self):
         twist = Twist()
-        ackermann = AckermannDrive()
+        ackermann = AckermannDriveStamped()
         while not self.done:
             self.condition.acquire()
             # Wait for a new message or timeout.
             self.condition.wait(self.timeout)
 
             # Copy state into twist message.
-            ackermann.speed = self.x * self.speed
+            ackermann.drive.speed = self.x * self.speed
             # twist.linear.x = self.x * self.speed
             # twist.linear.y = self.y * self.speed
             # ackermann.steering_angle = self.z * self.speed
-            twist.angular.x = 0
-            twist.angular.y = 0
-            ackermann.steering_angle = self.th * self.turn
+            # twist.angular.x = 0
+            # twist.angular.y = 0
+            ackermann.drive.steering_angle = self.th * self.turn
 
             self.condition.release()
 
@@ -152,11 +152,11 @@ class PublishThread(threading.Thread):
         # twist.angular.x = 0
         # twist.angular.y = 0
         # twist.angular.z = 0
-        ackermann.steering_angle = 0
-        ackermann.steering_angle_velocity = 0
-        ackermann.speed = 0
-        ackermann.jerk = 0
-        ackermann.acceleration = 0
+        ackermann.drive.steering_angle = 0
+        ackermann.drive.steering_angle_velocity = 0
+        ackermann.drive.speed = 0
+        ackermann.drive.jerk = 0
+        ackermann.drive.acceleration = 0
         self.publisher.publish(ackermann)
 
 

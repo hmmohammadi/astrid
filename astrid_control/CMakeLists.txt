@@ -165,6 +165,9 @@ catkin_install_python(PROGRAMS
   scripts/astrid_camera.py
   scripts/odometry.py
   scripts/odom.py
+  scripts/model.py
+  scripts/cmd_to_ackermann.py
+  scripts/cmd_vel_to_ackermann_drive.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

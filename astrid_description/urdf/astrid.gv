@@ -1,10 +1,11 @@
 digraph G {
 node [shape=box];
-"base_footprint" [label="base_footprint"];
+"base_link" [label="base_link"];
 "chassis" [label="chassis"];
+"base_scan" [label="base_scan"];
 "shell" [label="shell"];
 "camera_link" [label="camera_link"];
-"laser_base" [label="laser_base"];
+"top_view_camera_link" [label="top_view_camera_link"];
 "left_steering_link" [label="left_steering_link"];
 "left_front_axle_carrier" [label="left_front_axle_carrier"];
 "left_front_wheel" [label="left_front_wheel"];
@@ -16,14 +17,16 @@ node [shape=box];
 "right_rear_axle_carrier" [label="right_rear_axle_carrier"];
 "right_rear_wheel" [label="right_rear_wheel"];
 node [shape=ellipse, color=blue, fontcolor=blue];
-"base_footprint" -> "base_link_to_chassis" [label="xyz: 0 0 -0.05 \nrpy: 0 -0 0"]
+"base_link" -> "base_link_to_chassis" [label="xyz: 0 0 0.3 \nrpy: 0 -0 0"]
 "base_link_to_chassis" -> "chassis"
+"chassis" -> "base_scan_joint" [label="xyz: 1.2 -0.032 0.3 \nrpy: 0 -0 0"]
+"base_scan_joint" -> "base_scan"
 "chassis" -> "chassis_shell_joint" [label="xyz: -0.28 -0.017 0.19 \nrpy: 0 -0 0"]
 "chassis_shell_joint" -> "shell"
 "shell" -> "camera_joint" [label="xyz: 0.7 0 0.5 \nrpy: 0 -0 0"]
 "camera_joint" -> "camera_link"
-"chassis" -> "laser_base_joint" [label="xyz: 1.2 -0.032 0.3 \nrpy: 0 -0 0"]
-"laser_base_joint" -> "laser_base"
+"shell" -> "top_view_camera_joint" [label="xyz: -3 0 1.8 \nrpy: 0 -0 0"]
+"top_view_camera_joint" -> "top_view_camera_link"
 "chassis" -> "left_front_shock" [label="xyz: 0.6798 0.541 -0.0405 \nrpy: 0 -0 0"]
 "left_front_shock" -> "left_steering_link"
 "left_steering_link" -> "left_steering_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
