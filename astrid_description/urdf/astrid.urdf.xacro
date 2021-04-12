@@ -208,7 +208,7 @@
     <link name="${lr_prefix}_${fr_prefix}_wheel">
       <visual>
         <origin xyz="0
-                     ${lr_reflect * (axle_length - (tire_width / 
+                     ${lr_reflect * (axle_length - (tire_width /
                      2 - hex_hub_depth))}
                      0" />
         <geometry>
@@ -219,7 +219,7 @@
 
       <collision>
         <origin xyz="0
-                     ${lr_reflect * (axle_length - (tire_width / 
+                     ${lr_reflect * (axle_length - (tire_width /
                      2 - hex_hub_depth))}
                      0" />
         <geometry>
@@ -383,8 +383,8 @@
       <camera name="head">
         <horizontal_fov>1.3962634</horizontal_fov>
         <image>
-          <width>1600</width>
-          <height>900</height>
+          <width>1280</width>
+          <height>720</height>
           <format>R8G8B8</format>
         </image>
         <clip>
@@ -402,7 +402,7 @@
       </camera>
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
-        <updateRate>30.0</updateRate>
+        <updateRate>10.0</updateRate>
         <cameraName>camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
@@ -472,7 +472,7 @@
         </scan>
         <range>
           <min>0.10</min>
-          <max>12.0</max>
+          <max>21.0</max>
           <resolution>0.01</resolution>
         </range>
         <noise>
@@ -503,7 +503,7 @@
     <child link="top_view_camera_link"/>
   </joint>
 
- 
+
   <link name="top_view_camera_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>

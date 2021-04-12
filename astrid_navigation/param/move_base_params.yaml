@@ -8,4 +8,3 @@ shutdown_costmaps: false
 oscillation_timeout: 0.0
 oscillation_distance: 0.5
 planner_frequency: 0.0
-

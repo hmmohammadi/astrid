@@ -45,7 +45,7 @@ o -> durdur
 """
 moveBindings = {
         'i':(5,0,0,0),
-        'o':(0.3,0,0,-0.3),
+        'o':(0.9,0,0,-0.3),
         'j':(0,0,0,0.3),
         'l':(0,0,0,-0.3),
         'u':(0.9,0,0,0.3),
@@ -226,7 +226,7 @@ if __name__=="__main__":
                 th = 0
                 if (key == '\x03'):
                     break
- 
+
             pub_thread.update(x, y, z, th, speed, turn)
 
     except Exception as e:

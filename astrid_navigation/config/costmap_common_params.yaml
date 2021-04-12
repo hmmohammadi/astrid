@@ -3,7 +3,12 @@
 # ---(in meters)---
 # footprint: [ [0.254, -0.0508], [0.1778, -0.0508], [0.1778, -0.1778], [-0.1905, -0.1778], [-0.254, 0], [-0.1905, 0.1778], [0.1778, 0.1778], [0.1778, 0.0508], [0.254, 0.0508] ]
 # footprint: [ [-1.5,-0.425], [1.5,-0.425], [1.5,0.425], [-1.5,0.425] ]
-footprint: [ [-1.7,-0.7], [1.7,-0.7], [1.7,0.7], [-1.7,0.7] ]
+
+#footprint:  for type "circular" #[ [-1,-0.7], [1.2,-0.7], [1.2,0.7], [-1,0.7] ]
+
+footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+  type: "circular"
+  radius: 0.7 # for type "circular"
 
 transform_tolerance: 0.2
 map_type: costmap
@@ -22,8 +27,8 @@ obstacle_layer:
 
 inflation_layer:
   enabled:              true
-  cost_scaling_factor:  10.0  # exponential rate at which the obstacle cost drops off (default: 10)
-  inflation_radius:     10  # max. distance from an obstacle at which costs are incurred for planning paths.
+  cost_scaling_factor:  4 #6.5 #4 #2.5  # exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius:     1.9 #1.8 #1.9  #1.55  # max. distance from an obstacle at which costs are incurred for planning paths.
 
 static_layer:
   enabled:              true

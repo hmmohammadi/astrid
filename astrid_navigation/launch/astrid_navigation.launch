@@ -1,4 +1,4 @@
-<!-- 
+<!--
   Simulate a carlike robot with the teb_local_planner in stage:
   - stage
   - map_server
@@ -8,7 +8,7 @@
   - rviz view
  -->
 <launch>
-
+<arg name="move_forward_only" default="true"/>
 
 	<!--  ************** Navigation ***************  -->
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -21,7 +21,7 @@
 		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
 		<param name="planner_frequency" value="100.0" />
 		<param name="planner_patience" value="25.0" />
-
+		<param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
 		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
 		<param name="controller_frequency" value="100.0" />
 		<param name="controller_patience" value="15.0" />
