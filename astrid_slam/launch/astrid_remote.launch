@@ -1,0 +1,20 @@
+<launch>
+    <arg name="model" default="astrid"/>
+    <arg name="multi_robot_name" default=""/>
+  
+    <include file="$(find astrid_slam)/launch/description.launch.xml">
+      <arg name="model" value="$(arg model)" />
+    </include>
+  
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="5.0" />
+      <param name="tf_prefix" value="$(arg multi_robot_name)"/>
+    </node>
+  </launch>
+
+
+
+<!-- 
+  [ WARN] [1617660500.966207647]: Request for map failed; trying again...
+[ERROR] [1617660501.145343186]: Client [/ackermann_controller] wants topic /ackermann_cmd to have datatype/md5sum [ackermann_msgs/AckermannDrive/3512e91b48d69674a0e86fadf1ea8231], but our version has [geometry_msgs/Twist/9f195f881246fdfa2798d1d3eebca84a]. Dropping connection.
+[ WARN] [1617660501.212412755, 576.487000000]: Timed out waiting for transform from base_link to map to become available before running costmap, tf error: canTransform: target_frame map does not exist.. canTransform returned after 576.487 timeout was 0.1. -->

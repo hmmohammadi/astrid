@@ -1,0 +1,17 @@
+obstacle_range: 12.0
+raytrace_range: 12.5
+
+# The footprint attribute is used to indicate the geometry of the robot to the navigation stack. 
+#It is used to keep the right distance between the obstacles and the robot,
+# or to find out if the robot can go through a door.
+footprint: [[-0.105, -0.105], [-0.105, 0.105], [0.041, 0.105], [0.041, -0.105]]
+#robot_radius: 0.105
+
+inflation_radius: 1.0
+cost_scaling_factor: 3.0
+
+map_type: costmap
+# With the observation_sources attribute, you can set the sensors used by 
+# the navigation stack to get the data from the real world and calculate the path.
+observation_sources: scan
+scan: {sensor_frame: base_scan, data_type: LaserScan, topic: scan, marking: true, clearing: true}

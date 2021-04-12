@@ -1,0 +1,24 @@
+<launch>
+    <!-- Arguments -->
+    <arg name="model" default="astrid"/>
+    <arg name="slam_methods" default="gmapping"/>
+    <arg name="configuration_basename" default="astrid_lds_2d.lua"/>
+    <arg name="open_rviz" default="true"/>
+  
+  <!-- astrid  -->
+
+  <include file="$(find astrid_slam)/launch/astrid_remote.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+
+  
+    <!-- SLAM: Gmapping, Cartographer, Hector, Karto, Frontier_exploration, RTAB-Map -->
+    <include file="$(find astrid_slam)/launch/gmapping.launch">
+      <arg name="model" value="$(arg model)"/>
+      <arg name="configuration_basename" value="$(arg configuration_basename)"/>
+    </include>
+
+     <!-- rviz -->
+
+  </launch>

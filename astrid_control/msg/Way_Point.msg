@@ -1,0 +1,4 @@
+OnePoint first_waypoint
+OnePoint second_waypoint
+OnePoint third_waypoint
+OnePoint fourth_waypoint

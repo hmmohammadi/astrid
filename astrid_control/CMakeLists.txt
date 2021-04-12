@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   roscpp
   rospy
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -47,11 +48,12 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+   FILES
+   Way_Point.msg
+   OnePoint.msg
+
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -68,10 +70,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  # geometry_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES astrid_control
- CATKIN_DEPENDS geometry_msgs roscpp rospy
+ CATKIN_DEPENDS geometry_msgs roscpp rospy message_runtime
 #  DEPENDS system_lib
 )
 
@@ -165,6 +167,12 @@ catkin_install_python(PROGRAMS
   scripts/astrid_camera.py
   scripts/odometry.py
   scripts/odom.py
+  scripts/model.py
+  scripts/cmd_to_ackermann.py
+  scripts/cmd_vel_to_ackermann_drive.py
+  scripts/komutla_nav.py
+  scripts/scan_sub.py
+  scripts/komutla_nav_otonom.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

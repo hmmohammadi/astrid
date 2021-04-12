@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import rospy
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose, Twist, Transform, TransformStamped
@@ -10,10 +9,9 @@ import numpy as np
 import math
 import tf2_ros
 
-
 class OdometryNode:
     # set publishers
-    pub_odom = rospy.Publisher('/astrid/odom', Odometry, queue_size=1)
+    pub_odom = rospy.Publisher('/odom', Odometry, queue_size=1)
 
     def __init__(self):
         # init internals
@@ -21,8 +19,8 @@ class OdometryNode:
         self.l_rec_twist = Twist()
         self.l_rec_stamp = None
 
-        # set the update rate
-        rospy.Timer(rospy.Duration(.05), self.timer_callback) # 20hz
+        # set the update rate 0.02 50
+        rospy.Timer(rospy.Duration(.02), self.timer_callback) # 20hz
         
         self.tf_pub = tf2_ros.TransformBroadcaster()
 
@@ -47,8 +45,8 @@ class OdometryNode:
             return
         cmd = Odometry()
         cmd.header.stamp = self.l_rec_stamp
-        cmd.header.frame_id = 'base_link'
-        cmd.child_frame_id = 'odom'
+        cmd.header.frame_id = 'odom'
+        cmd.child_frame_id = 'base_link'
         cmd.pose.pose = self.l_rec_pose
         cmd.twist.twist = self.l_rec_twist
         self.pub_odom.publish(cmd)
@@ -65,7 +63,7 @@ class OdometryNode:
             )
         )
         self.tf_pub.sendTransform(tf)
-
+        
 # Start the node
 if __name__ == '__main__':
     rospy.init_node("gazebo_odometry_node")
