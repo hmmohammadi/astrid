@@ -5,13 +5,9 @@ from nav_msgs.msg import Odometry
 import move_base
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 import actionlib
+import math
 
-global odometri
-global waynokta
-odometri = Odometry()
-waynokta = Way_Point()
-
-def movebase_client(waypoint_veri,odom_veri):
+def movebase_client(x,y,z):
 
    # Create an action client called "move_base" with action definition file "MoveBaseAction"
     client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
@@ -24,10 +20,14 @@ def movebase_client(waypoint_veri,odom_veri):
     goal.target_pose.header.stamp = rospy.Time.now()
    # Move 0.5 meters forward along the x axis of the "map" coordinate frame
 
-    goal.target_pose.pose.position.x = waypoint_veri.fourth_waypoint.x + odom_veri.pose.pose.position.x
-    goal.target_pose.pose.position.y = waypoint_veri.fourth_waypoint.y + odom_veri.pose.pose.position.y
 
-    goal.target_pose.pose.orientation.w = 1.0
+
+    goal.target_pose.pose.position.x = x
+    goal.target_pose.pose.position.y = y
+
+    goal.target_pose.pose.orientation.z = z
+    goal.target_pose.pose.orientation.w = math.sqrt(1-z**2)
+
     print(goal.target_pose.pose)
     client.send_goal(goal)
 
@@ -46,23 +46,36 @@ def movebase_client(waypoint_veri,odom_veri):
 
 
 
-def scan_subs_callback(data):
-    global odometri
-    global waynokta
-    waynokta = data
-
-    #movebase_client(waynokta,odometri)
-
-def odom_subs_callback(data):
-    global odometri
-    global waynokta
-    odometri = data
-    print(movebase_client(waynokta,odometri))
+# def scan_subs_callback(data):
+#     global odometri
+#     global waynokta
+#     waynokta = data
+#
+#     #movebase_client(waynokta,odometri)
+#
+# def odom_subs_callback(data):
+#     global odometri
+#     global waynokta
+#     odometri = data
+#     print(movebase_client(odometri))
 
 def getRanges():
-   rospy.init_node('scannerr',anonymous=False)
-   rospy.Subscriber('/scan_publisher',Way_Point,scan_subs_callback)
-   rospy.Subscriber('/odom', Odometry, odom_subs_callback)
+    poses = [[10,0],[26,0],[62,0],[77,-1],[118, 21],[80,38],[71,85],  [63,91],[41,91],  [19,45],[11,38],[-9,23],[-15,22]]
+    orients = [[0,1],[0,1],[0,1], [0,1],  [0.7,0.7],[1,0],  [0.7,0.7],[1,0],  [1,0], [0.7,-0.7],  [1,0], [1,0],  [1,0]]
+    rospy.init_node('scannerr',anonymous=False)
+    for x in range(len(poses)):
+       movebase_client(poses[x][0],poses[x][1],orients[x][0])
+       if x == 4 or x == 8:
+           temp = 0
+           while not temp==10:
+               rospy.sleep(3);
+               print("duruyor")
+               temp +=1
+
+       rospy.sleep(0.3)
+    print("bittiiiiiiiiiiiiiiiii-----------------")
+   # rospy.Subscriber('/scan_publisher',Way_Point,scan_subs_callback)
+   # rospy.Subscriber('/odom', Odometry, odom_subs_callback)
 
 if __name__=="__main__":
     getRanges()

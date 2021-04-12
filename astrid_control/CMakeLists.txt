@@ -173,6 +173,7 @@ catkin_install_python(PROGRAMS
   scripts/komutla_nav.py
   scripts/scan_sub.py
   scripts/komutla_nav_otonom.py
+  scripts/yolo_object_detection.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
