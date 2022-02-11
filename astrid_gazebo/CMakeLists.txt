@@ -9,7 +9,7 @@ project(astrid_gazebo)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   ackermann_msgs
-  ackermann_vehicle_description
+  # ackermann_vehicle_description
   controller_manager
   controller_manager_msgs
   effort_controllers
